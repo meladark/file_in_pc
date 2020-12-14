@@ -25,18 +25,30 @@ namespace file_in_pc
             
         }
         /// <summary>
-        /// 
+        /// Директория для сканирования
         /// </summary>
         string path = "";
+        /// <summary>
+        /// Регулярное выражение по критерям которого будет происходить поиск
+        /// </summary>
         string rex = "";
+        /// <summary>
+        /// Файл с параметрами для сохранения
+        /// </summary>
         string setting_file = "set.dat";
+        /// <summary>
+        /// Список непроверенных директорий в случае прерывания проверки
+        /// </summary>
         List<string> not_over = new List<string>();
-        int counter = 0, fi = 0;
-        List<string> result = new List<string>();
+        /// <summary>
+        /// Главный поток, который производит поиск, запускает по нажатию на button1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             find_file find_File = new find_file();           
-            find_File.find(path, rex, ref counter, ref fi, ref result, this, ref not_over);
+            find_File.find(path, rex, this, ref not_over);
             backgroundWorker2.WorkerSupportsCancellation = true;
             backgroundWorker2.CancelAsync();
             button1.BeginInvoke((Action)(() => button1.Enabled = true));
@@ -99,7 +111,11 @@ namespace file_in_pc
             label3.Invoke((Action)(() => label3.Text = (Convert.ToInt32(label3.Text) + files.Length).ToString()));
             return false;
         }
-
+        /// <summary>
+        /// Отображения количество всего файлов
+        /// </summary>
+        /// <param name="count"> Количество файлов </param>
+        /// <returns> Прерывание от закрытия потока </returns>
         public bool view_all_file(int count)
         {
             if (backgroundWorker1.CancellationPending || backgroundWorker3.CancellationPending) { return true; } 
@@ -112,18 +128,22 @@ namespace file_in_pc
             }
             return false;
         }
-
+        /// <summary>
+        /// Отображение текущей директории
+        /// </summary>
+        /// <param name="dir"> Директория для отображения </param>
         public void View_dir(string dir)
         {
             label6.Invoke((Action)(() => label6.Text = dir));
         }
-
+        /// <summary>
+        /// Кнопка "Начать"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             not_over = new List<string>();
-            counter = 0;
-            fi = 0;
-            result = new List<string>();
             if (textBox1.Text != rex)
             {
                 rex = textBox1.Text;
@@ -176,7 +196,11 @@ namespace file_in_pc
             label7.Text = path;
             textBox1.Text = rex;
         }
-
+        /// <summary>
+        /// Кнопка "Закончить"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             if (backgroundWorker1.IsBusy)
@@ -198,7 +222,11 @@ namespace file_in_pc
             button2.Enabled = false;
             button4.Enabled = true;
         }
-
+        /// <summary>
+        /// Поток отсчитывающий время выполнения
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
@@ -220,7 +248,11 @@ namespace file_in_pc
                 Thread.Sleep(10);
             } while (true);
         }
-
+        /// <summary>
+        /// Поток для продолжения поиска при прерывании
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)
         {
             for (int i = 0; i < not_over.Count; i++)
@@ -230,7 +262,7 @@ namespace file_in_pc
                 string sub = not_over[0];
                 not_over.RemoveAt(0);
                 find_file find_File = new find_file();               
-                find_File.find(sub, rex, ref counter, ref fi, ref result, this, ref not_over);
+                find_File.find(sub, rex, this, ref not_over);
             }
             backgroundWorker2.WorkerSupportsCancellation = true;
             backgroundWorker2.CancelAsync();
@@ -243,7 +275,11 @@ namespace file_in_pc
         {
 
         }
-
+        /// <summary>
+        /// Выбор папки поиска
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -258,7 +294,11 @@ namespace file_in_pc
                 File.WriteAllLines(setting_file, f);
             }
         }
-
+        /// <summary>
+        /// Кнопка "Продолжить"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
             button4.Enabled = false;
