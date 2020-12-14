@@ -1,0 +1,10 @@
+C:\Users\mike\source\repos\file_in_pc\bin\Debug\file_in_pc.exe.config
+C:\Users\mike\source\repos\file_in_pc\bin\Debug\file_in_pc.exe
+C:\Users\mike\source\repos\file_in_pc\bin\Debug\file_in_pc.pdb
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.csprojAssemblyReference.cache
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.Form1.resources
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.Properties.Resources.resources
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.csproj.GenerateResource.cache
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.csproj.CoreCompileInputs.cache
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.exe
+C:\Users\mike\source\repos\file_in_pc\obj\Debug\file_in_pc.pdb
